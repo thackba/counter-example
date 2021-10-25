@@ -6,6 +6,10 @@ import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.example.counter.adapter.inbound.CounterResource;
+import org.example.counter.adapter.outbound.InMemoryStorage;
+import org.example.counter.adapter.outbound.StorageCache;
+import org.example.counter.application.IncrementCounterService;
 import org.example.counter.metrics.SimpleHealthCheck;
 import org.jdbi.v3.core.Jdbi;
 
@@ -33,6 +37,15 @@ public class CounterApplication extends Application<CounterConfiguration> {
         final JdbiFactory factory = new JdbiFactory();
         final Jdbi jdbi = factory.build(environment, configuration.getDataSourceFactory(), "mysql");
 
-        // environment.jersey().register();
+        // Outbound
+        var storage = new InMemoryStorage();
+        var cache = new StorageCache(storage);
+
+        // Service
+        var incrementCounterService = new IncrementCounterService(cache);
+
+        // Inbound
+        var resource = new CounterResource(incrementCounterService);
+        environment.jersey().register(resource);
     }
 }
