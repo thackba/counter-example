@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="001" author="thackbarth">
+        <createTable tableName="counter">
+            <column name="counter_id" type="varchar(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="int" defaultValue="0"/>
+        </createTable>
+        <addPrimaryKey columnNames="counter_id" constraintName="pk_counter_id" tableName="counter"/>
+    </changeSet>
+</databaseChangeLog>

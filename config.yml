@@ -1,0 +1,12 @@
+logging:
+  level: INFO
+  loggers:
+    org.example.counter: DEBUG
+
+database:
+  driverClass: "com.mysql.jdbc.Driver"
+  user: root
+  password: stdpsw
+  url: jdbc:mysql://localhost/counter
+  properties:
+    charSet: UTF-8
